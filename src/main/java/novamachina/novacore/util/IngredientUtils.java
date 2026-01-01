@@ -20,17 +20,9 @@ public class IngredientUtils {
    * @return true if test is a subset of source, false otherwise
    */
   public static boolean isIngredientIn(Ingredient test, Ingredient source) {
-//        for (Holder<Item> stack : test.items()) {
-//          if (source.test(new ItemStack(stack))) {
-//            return true;
-//          }
-//        }
-      return true;
-//      boolean result = test.items()
-//              .anyMatch(holder -> {
-//                  boolean matchResult = source.test(new ItemStack(holder.value()));
-//                  return matchResult;
-//              });
-//      return result;
+    // This fix is provided by [vsteinb](https://github.com/vsteinb) in [this commit](https://github.com/NovaMachina-Mods/NovaCore/pull/7/commits/05a8e5890bddd72d1405675f525a4cf95fe19ece).
+    // return test.items().anyMatch(stack -> source.acceptsItem(stack));
+
+    return test.items().anyMatch(source::acceptsItem);
   }
 }
