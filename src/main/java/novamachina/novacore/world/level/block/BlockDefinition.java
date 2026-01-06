@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import novamachina.novacore.world.item.ItemDefinition;
 
-public class BlockDefinition<T extends Block> extends ItemDefinition<BlockItem> {
+public class  BlockDefinition<T extends Block> extends ItemDefinition<BlockItem> {
   private final T block;
 
   public BlockDefinition(

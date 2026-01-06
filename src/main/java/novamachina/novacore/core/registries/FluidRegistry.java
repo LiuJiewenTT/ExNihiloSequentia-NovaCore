@@ -10,9 +10,13 @@ import novamachina.novacore.world.item.ItemDefinition;
 import novamachina.novacore.world.level.block.BlockDefinition;
 import novamachina.novacore.world.level.material.FluidDefinition;
 
-public class FluidRegistry extends AbstractRegistry<FluidDefinition<?, ?, ?>, Fluid> {
+public class FluidRegistry extends AbstractRegistry<FluidDefinition<?, ?, ?>> {
+// public class FluidRegistry extends AbstractRegistry<FluidDefinition<?, ?, ?>, Fluid> {  // This is for 1.21.3+
   public FluidRegistry(String modId) {
-    super(modId, Registries.FLUID);
+    super(modId);
+
+    // This is for 1.21.3+
+    // super(modId, Registries.FLUID);
   }
 
   public <

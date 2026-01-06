@@ -6,10 +6,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import novamachina.novacore.world.inventory.MenuTypeDefinition;
 
-public class MenuTypeRegistry extends AbstractRegistry<MenuTypeDefinition<?>, MenuType<?>> {
+public class MenuTypeRegistry extends AbstractRegistry<MenuTypeDefinition<?>> {
+// This is for 1.21.3+
+// public class MenuTypeRegistry extends AbstractRegistry<MenuTypeDefinition<?>, MenuType<?>> {
 
   public MenuTypeRegistry(String modId) {
-    super(modId, Registries.MENU);
+    super(modId);
+    // This is for 1.21.3+
+    // super(modId, Registries.MENU);
   }
 
   public <T extends AbstractContainerMenu> MenuTypeDefinition<T> menuType(
