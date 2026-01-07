@@ -7,11 +7,15 @@ import novamachina.novacore.world.item.crafting.AbstractRecipe;
 import novamachina.novacore.world.item.crafting.RecipeSerializerDefinition;
 
 public class RecipeSerializerRegistry
-    extends AbstractRegistry<
-        RecipeSerializerDefinition<? extends AbstractRecipe>, RecipeSerializer<?>> {
+    extends AbstractRegistry<RecipeSerializerDefinition<? extends AbstractRecipe>> {
+    // This is for 1.21.3+
+    // extends AbstractRegistry<
+    //     RecipeSerializerDefinition<? extends AbstractRecipe>, RecipeSerializer<?>> {
 
   public RecipeSerializerRegistry(String modId) {
-    super(modId, Registries.RECIPE_SERIALIZER);
+    super(modId);
+    // This is for 1.21.3+
+    // super(modId, Registries.RECIPE_SERIALIZER);
   }
 
   public <T extends AbstractRecipe> RecipeSerializerDefinition<T> register(

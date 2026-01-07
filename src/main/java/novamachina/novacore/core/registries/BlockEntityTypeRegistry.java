@@ -16,11 +16,15 @@ import novamachina.novacore.world.level.block.entity.BlockEntityTypeDefinition;
 import novamachina.novacore.world.level.block.entity.IBlockEntityTypeFactory;
 
 public class BlockEntityTypeRegistry
-    extends AbstractRegistry<BlockEntityTypeDefinition<? extends BlockEntity>, BlockEntityType<?>> {
+    extends AbstractRegistry<BlockEntityTypeDefinition<? extends BlockEntity>> {
+    // extends AbstractRegistry<BlockEntityTypeDefinition<? extends BlockEntity>, BlockEntityType<?>> { // This is for 1.21.3+
   private final IBlockEntityTypeFactory blockEntityTypeFactory;
 
   public BlockEntityTypeRegistry(String modId, IServiceProvider serviceProvider) {
-    super(modId, Registries.BLOCK_ENTITY_TYPE);
+    super(modId);
+
+    // This is for 1.21.3+
+    // super(modId, Registries.BLOCK_ENTITY_TYPE);
     this.blockEntityTypeFactory = serviceProvider.blockEntityTypeFactory();
   }
 

@@ -7,10 +7,14 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import novamachina.novacore.common.loot.modifier.LootModifierDefinition;
 
 public class LootModifierRegistry
-    extends AbstractRegistry<
-        LootModifierDefinition<? extends LootModifier>, MapCodec<? extends IGlobalLootModifier>> {
+    extends AbstractRegistry<LootModifierDefinition<? extends LootModifier>> {
+    // This is for 1.21.3+
+    // extends AbstractRegistry<
+    //     LootModifierDefinition<? extends LootModifier>, MapCodec<? extends IGlobalLootModifier>> {
   public LootModifierRegistry(String modId) {
-    super(modId, NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS);
+    super(modId);
+    // This is for 1.21.3+
+    // super(modId, NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS);
   }
 
   public <T extends LootModifier> LootModifierDefinition<T> create(

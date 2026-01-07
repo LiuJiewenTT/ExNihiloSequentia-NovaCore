@@ -1,5 +1,6 @@
 package novamachina.novacore.core.registries;
 
+import java.util.function.Supplier;
 import java.util.function.Function;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -17,41 +18,62 @@ import novamachina.novacore.world.item.ItemDefinition;
 import novamachina.novacore.world.level.block.BlockDefinition;
 import novamachina.novacore.world.level.block.IBlockFactory;
 
-public class BlockRegistry extends AbstractRegistry<BlockDefinition<? extends Block>, Block> {
+public class BlockRegistry extends AbstractRegistry<BlockDefinition<? extends Block>> {
+// public class BlockRegistry extends AbstractRegistry<BlockDefinition<? extends Block>, Block> { // This is for 1.21.3+
 
   private final IBlockItemFactory blockItemFactory;
   private final IBlockFactory blockFactory;
 
   public BlockRegistry(String modId, IServiceProvider serviceProvider) {
-    super(modId, Registries.BLOCK);
+    super(modId);
+
+    // This is for 1.21.3+
+    // super(modId, Registries.BLOCK);
     this.blockItemFactory = serviceProvider.blockItemFactory();
     this.blockFactory = serviceProvider.blockFactory();
   }
 
   public <T extends Block> BlockDefinition<T> block(
-      String englishName,
-      String shortId,
-      BlockBehaviour.Properties properties,
-      Function<BlockBehaviour.Properties, T> blockSupplier) {
-    properties = properties.setId(key(shortId));
-    T block = blockSupplier.apply(properties);
+      String englishName, String shortId, Supplier<T> blockSupplier) {
+    T block = blockSupplier.get();
     return blockInternal(englishName, shortId, block);
   }
 
+  // This is for 1.21.3+
+  // public <T extends Block> BlockDefinition<T> block(
+  //     String englishName,
+  //     String shortId,
+  //     BlockBehaviour.Properties properties,
+  //     Function<BlockBehaviour.Properties, T> blockSupplier) {
+  //   properties = properties.setId(key(shortId));
+  //   T block = blockSupplier.apply(properties);
+  //   return blockInternal(englishName, shortId, block);
+  // }
+
   public <T extends Block> BlockDefinition<T> block(
-      String englishName,
-      String shortId,
-      BlockBehaviour.Properties properties,
-      Function<BlockBehaviour.Properties, T> blockSupplier,
-      ItemDefinition.ItemType type) {
-    properties = properties.setId(key(shortId));
-    T block = blockSupplier.apply(properties);
+      String englishName, String shortId, Supplier<T> blockSupplier, ItemDefinition.ItemType type) {
+    T block = blockSupplier.get();
     return blockInternal(englishName, shortId, block, type);
   }
 
+  // This is for 1.21.3+
+  // public <T extends Block> BlockDefinition<T> block(
+  //     String englishName,
+  //     String shortId,
+  //     BlockBehaviour.Properties properties,
+  //     Function<BlockBehaviour.Properties, T> blockSupplier,
+  //     ItemDefinition.ItemType type) {
+  //   properties = properties.setId(key(shortId));
+  //   T block = blockSupplier.apply(properties);
+  //   return blockInternal(englishName, shortId, block, type);
+  // }
+
   public <T extends Block> BlockDefinition<T> block(
       String englishName, String shortId, BlockBehaviour.Properties properties) {
-    T block = blockFactory.block(properties.setId(key(shortId)));
+    T block = blockFactory.block(properties);
+
+    // This is for 1.21.3+
+    // T block = blockFactory.block(properties.setId(key(shortId)));
     return blockInternal(englishName, shortId, block);
   }
 
@@ -60,13 +82,19 @@ public class BlockRegistry extends AbstractRegistry<BlockDefinition<? extends Bl
       String shortId,
       BlockBehaviour.Properties properties,
       ItemDefinition.ItemType type) {
-    T block = blockFactory.block(properties.setId(key(shortId)));
+    T block = blockFactory.block(properties);
+
+    // This is for 1.21.3+
+    // T block = blockFactory.block(properties.setId(key(shortId)));
     return blockInternal(englishName, shortId, block, type);
   }
 
   public <T extends FallingBlock> BlockDefinition<T> fallingBlock(
       String englishName, String shortId, BlockBehaviour.Properties properties) {
-    T block = blockFactory.fallingBlock(properties.setId(key(shortId)));
+    T block = blockFactory.fallingBlock(properties);
+
+    // This is for 1.21.3+
+    // T block = blockFactory.fallingBlock(properties.setId(key(shortId)));
     return blockInternal(englishName, shortId, block);
   }
 
@@ -76,35 +104,52 @@ public class BlockRegistry extends AbstractRegistry<BlockDefinition<? extends Bl
       BlockBehaviour.Properties properties,
       FlowingFluid fluid,
       ItemDefinition.ItemType type) {
-    T block = blockFactory.liquidBlock(properties.setId(key(shortId)), fluid);
+    T block = blockFactory.liquidBlock(properties, fluid);
+
+    // This is for 1.21.3+
+    // T block = blockFactory.liquidBlock(properties.setId(key(shortId)), fluid);
     return blockInternal(englishName, shortId, block, type);
   }
 
   private <T extends Block> BlockDefinition<T> blockInternal(
       String englishName, String shortId, T block) {
-    BlockItem item =
-        blockItemFactory.blockItem(block, new Item.Properties().setId(itemKey(shortId)));
+    BlockItem item = blockItemFactory.blockItem(block, new Item.Properties());
+
+    // This is for 1.21.3+
+    // BlockItem item =
+    //     blockItemFactory.blockItem(block, new Item.Properties().setId(itemKey(shortId)));
     return blockDefinition(englishName, id(shortId), block, item);
   }
 
   private <T extends Block> BlockDefinition<T> blockInternal(
       String englishName, String shortId, T block, ItemDefinition.ItemType type) {
-    BlockItem item =
-        blockItemFactory.blockItem(block, new Item.Properties().setId(itemKey(shortId)));
+
+    BlockItem item = blockItemFactory.blockItem(block, new Item.Properties());
+    // This is for 1.21.3+
+    // BlockItem item =
+    //     blockItemFactory.blockItem(block, new Item.Properties().setId(itemKey(shortId)));
     return blockDefinition(englishName, id(shortId), block, item, type);
   }
 
   public <T extends Block> BlockDefinition<T> burnableBlock(
-      String englishName,
-      String shortId,
-      BlockBehaviour.Properties properties,
-      Function<BlockBehaviour.Properties, T> blockSupplier) {
-    properties = properties.setId(key(shortId));
-    T block = blockSupplier.apply(properties);
-    BlockItem item =
-        blockItemFactory.blockItem(block, new Item.Properties().setId(itemKey(shortId)));
+      String englishName, String shortId, Supplier<T> blockSupplier) {
+    T block = blockSupplier.get();
+    BlockItem item = blockItemFactory.burnableBlockItem(block, new Item.Properties(), 400);
     return blockDefinition(englishName, id(shortId), block, item);
   }
+
+  // This is for 1.21.3+
+  // public <T extends Block> BlockDefinition<T> burnableBlock(
+  //     String englishName,
+  //     String shortId,
+  //     BlockBehaviour.Properties properties,
+  //     Function<BlockBehaviour.Properties, T> blockSupplier) {
+  //   properties = properties.setId(key(shortId));
+  //   T block = blockSupplier.apply(properties);
+  //   BlockItem item =
+  //       blockItemFactory.blockItem(block, new Item.Properties().setId(itemKey(shortId)));
+  //   return blockDefinition(englishName, id(shortId), block, item);
+  // }
 
   private <T extends Block> BlockDefinition<T> blockDefinition(
       String englishName, ResourceLocation id, T block, BlockItem item) {
@@ -124,6 +169,7 @@ public class BlockRegistry extends AbstractRegistry<BlockDefinition<? extends Bl
     return definition;
   }
 
+  // This is added when upgrading to 1.21.3+
   protected ResourceKey<Item> itemKey(String name) {
     return ResourceKey.create(Registries.ITEM, id(name));
   }
